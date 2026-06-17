@@ -1,13 +1,45 @@
-utils::globalVariables(c("gene_idx", "expression", "."))
-
-#' ondisc: A package for out-of-memory computing on single-cell data
-#'
-#' Single-cell datasets are large and are growing in size as sequencing costs drop. The ondisc package is designed to facilitate large-scale computing on single-cell expression data by providing access to expression matrices out-of-memory. ondisc is functional (i.e., all objects are persistent) and efficient (i.e., all algorithms are theoretically optimal in time).
+utils::globalVariables(c("feature_idx", "vector_idx", "j", "x", "vector_id", "grna_id"))
 #' @useDynLib ondisc, .registration = TRUE
 #' @importFrom Rcpp sourceCpp
-#' @importFrom magrittr %>%
-#' @import methods
-#' @docType package
+#' @importFrom data.table setkey
+#' @examples
+#' # initialize odm objects from Cell Ranger output; also, compute the cellwise covariates
+#' directories_to_load <- file.path(
+#'  system.file("extdata", "highmoi_example", package = "ondisc"),
+#'  paste0("gem_group_", c(1, 2))
+#' )
+#' directory_to_write <- tempdir()
+#' # Set data.table threads to 1 to pass CRAN example timing checks.
+#' old_threads <- data.table::setDTthreads(1L)
+#' out_list <- create_odm_from_cellranger(
+#'   directories_to_load = directories_to_load,
+#'   directory_to_write = directory_to_write,
+#' )
+#' data.table::setDTthreads(old_threads)
 #'
-#' @name ondisc
-NULL
+#' # extract the odm corresponding to the gene modality
+#' gene_odm <- out_list$gene
+#' gene_odm
+#'
+#' # obtain dimension information
+#' dim(gene_odm)
+#' nrow(gene_odm)
+#' ncol(gene_odm)
+#'
+#' # obtain rownames (i.e., the feature IDs)
+#' rownames(gene_odm) |> head()
+#'
+#' # extract row into memory, first by integer and then by string
+#' expression_vector_1 <- gene_odm[10,]
+#' expression_vector_2 <- gene_odm[rownames(gene_odm)[10],]
+#'
+#' # delete the gene_odm object
+#' rm(gene_odm)
+#'
+#' # reinitialize the gene_odm object
+#' gene_odm <- initialize_odm_from_backing_file(
+#'   paste0(tempdir(), "/gene.odm")
+#' )
+#' gene_odm
+#' @import Rhdf5lib
+"_PACKAGE"

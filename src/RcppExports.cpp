@@ -5,164 +5,320 @@
 
 using namespace Rcpp;
 
-// inc_mean_count
-void inc_mean_count(NumericVector acc_vect, IntegerVector idxs, IntegerVector umi_counts, double n);
-RcppExport SEXP _ondisc_inc_mean_count(SEXP acc_vectSEXP, SEXP idxsSEXP, SEXP umi_countsSEXP, SEXP nSEXP) {
+#ifdef RCPP_USE_GLOBAL_ROSTREAM
+Rcpp::Rostream<true>&  Rcpp::Rcout = Rcpp::Rcpp_cout_get();
+Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
+#endif
+
+// update_n_features_vector
+void update_n_features_vector(IntegerVector feature_idx, IntegerVector n_nonzero_features_vector, int offset, int start_idx, int end_idx);
+RcppExport SEXP _ondisc_update_n_features_vector(SEXP feature_idxSEXP, SEXP n_nonzero_features_vectorSEXP, SEXP offsetSEXP, SEXP start_idxSEXP, SEXP end_idxSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< NumericVector >::type acc_vect(acc_vectSEXP);
-    Rcpp::traits::input_parameter< IntegerVector >::type idxs(idxsSEXP);
-    Rcpp::traits::input_parameter< IntegerVector >::type umi_counts(umi_countsSEXP);
-    Rcpp::traits::input_parameter< double >::type n(nSEXP);
-    inc_mean_count(acc_vect, idxs, umi_counts, n);
+    Rcpp::traits::input_parameter< IntegerVector >::type feature_idx(feature_idxSEXP);
+    Rcpp::traits::input_parameter< IntegerVector >::type n_nonzero_features_vector(n_nonzero_features_vectorSEXP);
+    Rcpp::traits::input_parameter< int >::type offset(offsetSEXP);
+    Rcpp::traits::input_parameter< int >::type start_idx(start_idxSEXP);
+    Rcpp::traits::input_parameter< int >::type end_idx(end_idxSEXP);
+    update_n_features_vector(feature_idx, n_nonzero_features_vector, offset, start_idx, end_idx);
     return R_NilValue;
 END_RCPP
 }
-// inc_n_entries
-void inc_n_entries(IntegerVector acc_vect, IntegerVector idxs);
-RcppExport SEXP _ondisc_inc_n_entries(SEXP acc_vectSEXP, SEXP idxsSEXP) {
+// decrement_vector
+void decrement_vector(IntegerVector v);
+RcppExport SEXP _ondisc_decrement_vector(SEXP vSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< IntegerVector >::type acc_vect(acc_vectSEXP);
-    Rcpp::traits::input_parameter< IntegerVector >::type idxs(idxsSEXP);
-    inc_n_entries(acc_vect, idxs);
+    Rcpp::traits::input_parameter< IntegerVector >::type v(vSEXP);
+    decrement_vector(v);
     return R_NilValue;
 END_RCPP
 }
-// inc_mean_sq_count
-void inc_mean_sq_count(NumericVector acc_vect, IntegerVector idxs, IntegerVector umi_counts, double n);
-RcppExport SEXP _ondisc_inc_mean_sq_count(SEXP acc_vectSEXP, SEXP idxsSEXP, SEXP umi_countsSEXP, SEXP nSEXP) {
+// add_value_to_vector
+void add_value_to_vector(IntegerVector v, int to_add);
+RcppExport SEXP _ondisc_add_value_to_vector(SEXP vSEXP, SEXP to_addSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< NumericVector >::type acc_vect(acc_vectSEXP);
-    Rcpp::traits::input_parameter< IntegerVector >::type idxs(idxsSEXP);
-    Rcpp::traits::input_parameter< IntegerVector >::type umi_counts(umi_countsSEXP);
-    Rcpp::traits::input_parameter< double >::type n(nSEXP);
-    inc_mean_sq_count(acc_vect, idxs, umi_counts, n);
+    Rcpp::traits::input_parameter< IntegerVector >::type v(vSEXP);
+    Rcpp::traits::input_parameter< int >::type to_add(to_addSEXP);
+    add_value_to_vector(v, to_add);
     return R_NilValue;
 END_RCPP
 }
-// inc_count
-void inc_count(IntegerVector acc_vect, IntegerVector idxs, IntegerVector umi_counts);
-RcppExport SEXP _ondisc_inc_count(SEXP acc_vectSEXP, SEXP idxsSEXP, SEXP umi_countsSEXP) {
+// compute_cellwise_covariates
+void compute_cellwise_covariates(IntegerVector n_umis, IntegerVector n_nonzero, NumericVector p_mito, IntegerVector feature_w_max_expression, NumericVector frac_umis_max_feature, IntegerVector feature_idx, IntegerVector j, IntegerVector x, IntegerVector mt_feature_idxs, int start_idx, int end_idx, int feature_offset, int cell_offset, int n_cells, bool compute_n_umis, bool compute_n_nonzero, bool compute_p_mito, bool compute_feature_w_max_expression, bool compute_frac_umis_max_feature);
+RcppExport SEXP _ondisc_compute_cellwise_covariates(SEXP n_umisSEXP, SEXP n_nonzeroSEXP, SEXP p_mitoSEXP, SEXP feature_w_max_expressionSEXP, SEXP frac_umis_max_featureSEXP, SEXP feature_idxSEXP, SEXP jSEXP, SEXP xSEXP, SEXP mt_feature_idxsSEXP, SEXP start_idxSEXP, SEXP end_idxSEXP, SEXP feature_offsetSEXP, SEXP cell_offsetSEXP, SEXP n_cellsSEXP, SEXP compute_n_umisSEXP, SEXP compute_n_nonzeroSEXP, SEXP compute_p_mitoSEXP, SEXP compute_feature_w_max_expressionSEXP, SEXP compute_frac_umis_max_featureSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< IntegerVector >::type acc_vect(acc_vectSEXP);
-    Rcpp::traits::input_parameter< IntegerVector >::type idxs(idxsSEXP);
-    Rcpp::traits::input_parameter< IntegerVector >::type umi_counts(umi_countsSEXP);
-    inc_count(acc_vect, idxs, umi_counts);
+    Rcpp::traits::input_parameter< IntegerVector >::type n_umis(n_umisSEXP);
+    Rcpp::traits::input_parameter< IntegerVector >::type n_nonzero(n_nonzeroSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type p_mito(p_mitoSEXP);
+    Rcpp::traits::input_parameter< IntegerVector >::type feature_w_max_expression(feature_w_max_expressionSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type frac_umis_max_feature(frac_umis_max_featureSEXP);
+    Rcpp::traits::input_parameter< IntegerVector >::type feature_idx(feature_idxSEXP);
+    Rcpp::traits::input_parameter< IntegerVector >::type j(jSEXP);
+    Rcpp::traits::input_parameter< IntegerVector >::type x(xSEXP);
+    Rcpp::traits::input_parameter< IntegerVector >::type mt_feature_idxs(mt_feature_idxsSEXP);
+    Rcpp::traits::input_parameter< int >::type start_idx(start_idxSEXP);
+    Rcpp::traits::input_parameter< int >::type end_idx(end_idxSEXP);
+    Rcpp::traits::input_parameter< int >::type feature_offset(feature_offsetSEXP);
+    Rcpp::traits::input_parameter< int >::type cell_offset(cell_offsetSEXP);
+    Rcpp::traits::input_parameter< int >::type n_cells(n_cellsSEXP);
+    Rcpp::traits::input_parameter< bool >::type compute_n_umis(compute_n_umisSEXP);
+    Rcpp::traits::input_parameter< bool >::type compute_n_nonzero(compute_n_nonzeroSEXP);
+    Rcpp::traits::input_parameter< bool >::type compute_p_mito(compute_p_mitoSEXP);
+    Rcpp::traits::input_parameter< bool >::type compute_feature_w_max_expression(compute_feature_w_max_expressionSEXP);
+    Rcpp::traits::input_parameter< bool >::type compute_frac_umis_max_feature(compute_frac_umis_max_featureSEXP);
+    compute_cellwise_covariates(n_umis, n_nonzero, p_mito, feature_w_max_expression, frac_umis_max_feature, feature_idx, j, x, mt_feature_idxs, start_idx, end_idx, feature_offset, cell_offset, n_cells, compute_n_umis, compute_n_nonzero, compute_p_mito, compute_feature_w_max_expression, compute_frac_umis_max_feature);
     return R_NilValue;
 END_RCPP
 }
-// inc_cell_count_if_feature_condition
-void inc_cell_count_if_feature_condition(IntegerVector acc_vect, IntegerVector feature_idxs, IntegerVector cell_idxs, IntegerVector umi_counts, LogicalVector bool_vect);
-RcppExport SEXP _ondisc_inc_cell_count_if_feature_condition(SEXP acc_vectSEXP, SEXP feature_idxsSEXP, SEXP cell_idxsSEXP, SEXP umi_countsSEXP, SEXP bool_vectSEXP) {
+// write_to_csr
+void write_to_csr(const std::string& file_name_in, int start_idx, int end_idx, int feature_offset, int cell_offset, int n_features, SEXP f_row_ptr, IntegerVector feature_idx, IntegerVector m_j, IntegerVector m_x);
+RcppExport SEXP _ondisc_write_to_csr(SEXP file_name_inSEXP, SEXP start_idxSEXP, SEXP end_idxSEXP, SEXP feature_offsetSEXP, SEXP cell_offsetSEXP, SEXP n_featuresSEXP, SEXP f_row_ptrSEXP, SEXP feature_idxSEXP, SEXP m_jSEXP, SEXP m_xSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< IntegerVector >::type acc_vect(acc_vectSEXP);
-    Rcpp::traits::input_parameter< IntegerVector >::type feature_idxs(feature_idxsSEXP);
-    Rcpp::traits::input_parameter< IntegerVector >::type cell_idxs(cell_idxsSEXP);
-    Rcpp::traits::input_parameter< IntegerVector >::type umi_counts(umi_countsSEXP);
-    Rcpp::traits::input_parameter< LogicalVector >::type bool_vect(bool_vectSEXP);
-    inc_cell_count_if_feature_condition(acc_vect, feature_idxs, cell_idxs, umi_counts, bool_vect);
+    Rcpp::traits::input_parameter< const std::string& >::type file_name_in(file_name_inSEXP);
+    Rcpp::traits::input_parameter< int >::type start_idx(start_idxSEXP);
+    Rcpp::traits::input_parameter< int >::type end_idx(end_idxSEXP);
+    Rcpp::traits::input_parameter< int >::type feature_offset(feature_offsetSEXP);
+    Rcpp::traits::input_parameter< int >::type cell_offset(cell_offsetSEXP);
+    Rcpp::traits::input_parameter< int >::type n_features(n_featuresSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type f_row_ptr(f_row_ptrSEXP);
+    Rcpp::traits::input_parameter< IntegerVector >::type feature_idx(feature_idxSEXP);
+    Rcpp::traits::input_parameter< IntegerVector >::type m_j(m_jSEXP);
+    Rcpp::traits::input_parameter< IntegerVector >::type m_x(m_xSEXP);
+    write_to_csr(file_name_in, start_idx, end_idx, feature_offset, cell_offset, n_features, f_row_ptr, feature_idx, m_j, m_x);
     return R_NilValue;
 END_RCPP
 }
-// index_h5_file
-List index_h5_file(const std::string& file_name_in, const std::string& p_name_in, const std::string& idx_name_in, const std::string& umi_counts_name_in, IntegerVector subset_vector, bool logical_mat);
-RcppExport SEXP _ondisc_index_h5_file(SEXP file_name_inSEXP, SEXP p_name_inSEXP, SEXP idx_name_inSEXP, SEXP umi_counts_name_inSEXP, SEXP subset_vectorSEXP, SEXP logical_matSEXP) {
+// create_odm
+void create_odm(const std::string& file_name_in, IntegerVector n_nonzero_features, StringVector feature_ids, int n_cells, int integer_id, int chunk_size, int compression_level);
+RcppExport SEXP _ondisc_create_odm(SEXP file_name_inSEXP, SEXP n_nonzero_featuresSEXP, SEXP feature_idsSEXP, SEXP n_cellsSEXP, SEXP integer_idSEXP, SEXP chunk_sizeSEXP, SEXP compression_levelSEXP) {
+BEGIN_RCPP
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const std::string& >::type file_name_in(file_name_inSEXP);
+    Rcpp::traits::input_parameter< IntegerVector >::type n_nonzero_features(n_nonzero_featuresSEXP);
+    Rcpp::traits::input_parameter< StringVector >::type feature_ids(feature_idsSEXP);
+    Rcpp::traits::input_parameter< int >::type n_cells(n_cellsSEXP);
+    Rcpp::traits::input_parameter< int >::type integer_id(integer_idSEXP);
+    Rcpp::traits::input_parameter< int >::type chunk_size(chunk_sizeSEXP);
+    Rcpp::traits::input_parameter< int >::type compression_level(compression_levelSEXP);
+    create_odm(file_name_in, n_nonzero_features, feature_ids, n_cells, integer_id, chunk_size, compression_level);
+    return R_NilValue;
+END_RCPP
+}
+// create_odm_r_matrix_cpp
+void create_odm_r_matrix_cpp(const std::string& file_name_in, StringVector feature_ids, int n_features, int n_cells, int integer_id, int chunk_size, int compression_level, const std::vector<int>& j, const std::vector<int>& x, const std::vector<int>& p);
+RcppExport SEXP _ondisc_create_odm_r_matrix_cpp(SEXP file_name_inSEXP, SEXP feature_idsSEXP, SEXP n_featuresSEXP, SEXP n_cellsSEXP, SEXP integer_idSEXP, SEXP chunk_sizeSEXP, SEXP compression_levelSEXP, SEXP jSEXP, SEXP xSEXP, SEXP pSEXP) {
+BEGIN_RCPP
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const std::string& >::type file_name_in(file_name_inSEXP);
+    Rcpp::traits::input_parameter< StringVector >::type feature_ids(feature_idsSEXP);
+    Rcpp::traits::input_parameter< int >::type n_features(n_featuresSEXP);
+    Rcpp::traits::input_parameter< int >::type n_cells(n_cellsSEXP);
+    Rcpp::traits::input_parameter< int >::type integer_id(integer_idSEXP);
+    Rcpp::traits::input_parameter< int >::type chunk_size(chunk_sizeSEXP);
+    Rcpp::traits::input_parameter< int >::type compression_level(compression_levelSEXP);
+    Rcpp::traits::input_parameter< const std::vector<int>& >::type j(jSEXP);
+    Rcpp::traits::input_parameter< const std::vector<int>& >::type x(xSEXP);
+    Rcpp::traits::input_parameter< const std::vector<int>& >::type p(pSEXP);
+    create_odm_r_matrix_cpp(file_name_in, feature_ids, n_features, n_cells, integer_id, chunk_size, compression_level, j, x, p);
+    return R_NilValue;
+END_RCPP
+}
+// load_row_cpp
+IntegerVector load_row_cpp(const std::string& file_name_in, SEXP f_row_ptr, int row_idx, int n_cells);
+RcppExport SEXP _ondisc_load_row_cpp(SEXP file_name_inSEXP, SEXP f_row_ptrSEXP, SEXP row_idxSEXP, SEXP n_cellsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< const std::string& >::type file_name_in(file_name_inSEXP);
-    Rcpp::traits::input_parameter< const std::string& >::type p_name_in(p_name_inSEXP);
-    Rcpp::traits::input_parameter< const std::string& >::type idx_name_in(idx_name_inSEXP);
-    Rcpp::traits::input_parameter< const std::string& >::type umi_counts_name_in(umi_counts_name_inSEXP);
-    Rcpp::traits::input_parameter< IntegerVector >::type subset_vector(subset_vectorSEXP);
-    Rcpp::traits::input_parameter< bool >::type logical_mat(logical_matSEXP);
-    rcpp_result_gen = Rcpp::wrap(index_h5_file(file_name_in, p_name_in, idx_name_in, umi_counts_name_in, subset_vector, logical_mat));
+    Rcpp::traits::input_parameter< SEXP >::type f_row_ptr(f_row_ptrSEXP);
+    Rcpp::traits::input_parameter< int >::type row_idx(row_idxSEXP);
+    Rcpp::traits::input_parameter< int >::type n_cells(n_cellsSEXP);
+    rcpp_result_gen = Rcpp::wrap(load_row_cpp(file_name_in, f_row_ptr, row_idx, n_cells));
     return rcpp_result_gen;
 END_RCPP
 }
-// write_data_h5
-void write_data_h5(const std::string& file_name_in, const std::string& dataset_name_in, IntegerVector buffer, int start_pos);
-RcppExport SEXP _ondisc_write_data_h5(SEXP file_name_inSEXP, SEXP dataset_name_inSEXP, SEXP bufferSEXP, SEXP start_posSEXP) {
+// read_integer_vector
+IntegerVector read_integer_vector(const std::string& file_name_in, const std::string& dataset_name, int length);
+RcppExport SEXP _ondisc_read_integer_vector(SEXP file_name_inSEXP, SEXP dataset_nameSEXP, SEXP lengthSEXP) {
 BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< const std::string& >::type file_name_in(file_name_inSEXP);
-    Rcpp::traits::input_parameter< const std::string& >::type dataset_name_in(dataset_name_inSEXP);
-    Rcpp::traits::input_parameter< IntegerVector >::type buffer(bufferSEXP);
-    Rcpp::traits::input_parameter< int >::type start_pos(start_posSEXP);
-    write_data_h5(file_name_in, dataset_name_in, buffer, start_pos);
-    return R_NilValue;
+    Rcpp::traits::input_parameter< const std::string& >::type dataset_name(dataset_nameSEXP);
+    Rcpp::traits::input_parameter< int >::type length(lengthSEXP);
+    rcpp_result_gen = Rcpp::wrap(read_integer_vector(file_name_in, dataset_name, length));
+    return rcpp_result_gen;
 END_RCPP
 }
-// map_memory_to_disk
-void map_memory_to_disk(const std::string& file_name_in, IntegerVector m_cell_idxs, const std::string& cell_idxs_name, IntegerVector m_umi_counts, const std::string& umi_counts_name, int n_features, IntegerVector m_row_ptr, IntegerVector f_row_ptr);
-RcppExport SEXP _ondisc_map_memory_to_disk(SEXP file_name_inSEXP, SEXP m_cell_idxsSEXP, SEXP cell_idxs_nameSEXP, SEXP m_umi_countsSEXP, SEXP umi_counts_nameSEXP, SEXP n_featuresSEXP, SEXP m_row_ptrSEXP, SEXP f_row_ptrSEXP) {
+// read_feature_ids
+StringVector read_feature_ids(const std::string& file_name_in, int n_features);
+RcppExport SEXP _ondisc_read_feature_ids(SEXP file_name_inSEXP, SEXP n_featuresSEXP) {
 BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< const std::string& >::type file_name_in(file_name_inSEXP);
-    Rcpp::traits::input_parameter< IntegerVector >::type m_cell_idxs(m_cell_idxsSEXP);
-    Rcpp::traits::input_parameter< const std::string& >::type cell_idxs_name(cell_idxs_nameSEXP);
-    Rcpp::traits::input_parameter< IntegerVector >::type m_umi_counts(m_umi_countsSEXP);
-    Rcpp::traits::input_parameter< const std::string& >::type umi_counts_name(umi_counts_nameSEXP);
     Rcpp::traits::input_parameter< int >::type n_features(n_featuresSEXP);
-    Rcpp::traits::input_parameter< IntegerVector >::type m_row_ptr(m_row_ptrSEXP);
-    Rcpp::traits::input_parameter< IntegerVector >::type f_row_ptr(f_row_ptrSEXP);
-    map_memory_to_disk(file_name_in, m_cell_idxs, cell_idxs_name, m_umi_counts, umi_counts_name, n_features, m_row_ptr, f_row_ptr);
-    return R_NilValue;
+    rcpp_result_gen = Rcpp::wrap(read_feature_ids(file_name_in, n_features));
+    return rcpp_result_gen;
 END_RCPP
 }
-// map_memory_to_disk_logical_matrix
-void map_memory_to_disk_logical_matrix(const std::string& file_name_in, IntegerVector m_cell_idxs, const std::string& cell_idxs_name, int n_features, IntegerVector m_row_ptr, IntegerVector f_row_ptr);
-RcppExport SEXP _ondisc_map_memory_to_disk_logical_matrix(SEXP file_name_inSEXP, SEXP m_cell_idxsSEXP, SEXP cell_idxs_nameSEXP, SEXP n_featuresSEXP, SEXP m_row_ptrSEXP, SEXP f_row_ptrSEXP) {
+// read_row_ptr
+SEXP read_row_ptr(const std::string& file_name_in, int n_features);
+RcppExport SEXP _ondisc_read_row_ptr(SEXP file_name_inSEXP, SEXP n_featuresSEXP) {
 BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< const std::string& >::type file_name_in(file_name_inSEXP);
-    Rcpp::traits::input_parameter< IntegerVector >::type m_cell_idxs(m_cell_idxsSEXP);
-    Rcpp::traits::input_parameter< const std::string& >::type cell_idxs_name(cell_idxs_nameSEXP);
     Rcpp::traits::input_parameter< int >::type n_features(n_featuresSEXP);
-    Rcpp::traits::input_parameter< IntegerVector >::type m_row_ptr(m_row_ptrSEXP);
-    Rcpp::traits::input_parameter< IntegerVector >::type f_row_ptr(f_row_ptrSEXP);
-    map_memory_to_disk_logical_matrix(file_name_in, m_cell_idxs, cell_idxs_name, n_features, m_row_ptr, f_row_ptr);
+    rcpp_result_gen = Rcpp::wrap(read_row_ptr(file_name_in, n_features));
+    return rcpp_result_gen;
+END_RCPP
+}
+// threshold_count_matrix_cpp
+IntegerVector threshold_count_matrix_cpp(const std::string& file_name_in, SEXP f_row_ptr, int row_idx, int threshold);
+RcppExport SEXP _ondisc_threshold_count_matrix_cpp(SEXP file_name_inSEXP, SEXP f_row_ptrSEXP, SEXP row_idxSEXP, SEXP thresholdSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const std::string& >::type file_name_in(file_name_inSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type f_row_ptr(f_row_ptrSEXP);
+    Rcpp::traits::input_parameter< int >::type row_idx(row_idxSEXP);
+    Rcpp::traits::input_parameter< int >::type threshold(thresholdSEXP);
+    rcpp_result_gen = Rcpp::wrap(threshold_count_matrix_cpp(file_name_in, f_row_ptr, row_idx, threshold));
+    return rcpp_result_gen;
+END_RCPP
+}
+// compute_nt_nonzero_matrix_and_n_ok_pairs_ondisc
+List compute_nt_nonzero_matrix_and_n_ok_pairs_ondisc(const std::string& file_name_in, SEXP f_row_ptr, int n_genes, int n_cells_orig, int n_cells_sub, List grna_group_idxs, List indiv_nt_grna_idxs, IntegerVector all_nt_idxs, IntegerVector to_analyze_response_idxs, IntegerVector to_analyze_grna_idxs, bool control_group_complement, IntegerVector cells_in_use);
+RcppExport SEXP _ondisc_compute_nt_nonzero_matrix_and_n_ok_pairs_ondisc(SEXP file_name_inSEXP, SEXP f_row_ptrSEXP, SEXP n_genesSEXP, SEXP n_cells_origSEXP, SEXP n_cells_subSEXP, SEXP grna_group_idxsSEXP, SEXP indiv_nt_grna_idxsSEXP, SEXP all_nt_idxsSEXP, SEXP to_analyze_response_idxsSEXP, SEXP to_analyze_grna_idxsSEXP, SEXP control_group_complementSEXP, SEXP cells_in_useSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const std::string& >::type file_name_in(file_name_inSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type f_row_ptr(f_row_ptrSEXP);
+    Rcpp::traits::input_parameter< int >::type n_genes(n_genesSEXP);
+    Rcpp::traits::input_parameter< int >::type n_cells_orig(n_cells_origSEXP);
+    Rcpp::traits::input_parameter< int >::type n_cells_sub(n_cells_subSEXP);
+    Rcpp::traits::input_parameter< List >::type grna_group_idxs(grna_group_idxsSEXP);
+    Rcpp::traits::input_parameter< List >::type indiv_nt_grna_idxs(indiv_nt_grna_idxsSEXP);
+    Rcpp::traits::input_parameter< IntegerVector >::type all_nt_idxs(all_nt_idxsSEXP);
+    Rcpp::traits::input_parameter< IntegerVector >::type to_analyze_response_idxs(to_analyze_response_idxsSEXP);
+    Rcpp::traits::input_parameter< IntegerVector >::type to_analyze_grna_idxs(to_analyze_grna_idxsSEXP);
+    Rcpp::traits::input_parameter< bool >::type control_group_complement(control_group_complementSEXP);
+    Rcpp::traits::input_parameter< IntegerVector >::type cells_in_use(cells_in_useSEXP);
+    rcpp_result_gen = Rcpp::wrap(compute_nt_nonzero_matrix_and_n_ok_pairs_ondisc(file_name_in, f_row_ptr, n_genes, n_cells_orig, n_cells_sub, grna_group_idxs, indiv_nt_grna_idxs, all_nt_idxs, to_analyze_response_idxs, to_analyze_grna_idxs, control_group_complement, cells_in_use));
+    return rcpp_result_gen;
+END_RCPP
+}
+// compute_n_trt_cells_matrix_ondisc
+IntegerMatrix compute_n_trt_cells_matrix_ondisc(const std::string& file_name_in, SEXP f_row_ptr, int n_cells_orig, int n_cells_sub, int n_genes, List nt_grna_group_idxs, IntegerVector cells_in_use);
+RcppExport SEXP _ondisc_compute_n_trt_cells_matrix_ondisc(SEXP file_name_inSEXP, SEXP f_row_ptrSEXP, SEXP n_cells_origSEXP, SEXP n_cells_subSEXP, SEXP n_genesSEXP, SEXP nt_grna_group_idxsSEXP, SEXP cells_in_useSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const std::string& >::type file_name_in(file_name_inSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type f_row_ptr(f_row_ptrSEXP);
+    Rcpp::traits::input_parameter< int >::type n_cells_orig(n_cells_origSEXP);
+    Rcpp::traits::input_parameter< int >::type n_cells_sub(n_cells_subSEXP);
+    Rcpp::traits::input_parameter< int >::type n_genes(n_genesSEXP);
+    Rcpp::traits::input_parameter< List >::type nt_grna_group_idxs(nt_grna_group_idxsSEXP);
+    Rcpp::traits::input_parameter< IntegerVector >::type cells_in_use(cells_in_useSEXP);
+    rcpp_result_gen = Rcpp::wrap(compute_n_trt_cells_matrix_ondisc(file_name_in, f_row_ptr, n_cells_orig, n_cells_sub, n_genes, nt_grna_group_idxs, cells_in_use));
+    return rcpp_result_gen;
+END_RCPP
+}
+// compute_n_ok_pairs_ondisc
+List compute_n_ok_pairs_ondisc(const std::string& file_name_in, SEXP f_row_ptr, int n_genes, int n_cells_orig, int n_cells_sub, List grna_group_idxs, IntegerVector all_nt_idxs, IntegerVector to_analyze_response_idxs, IntegerVector to_analyze_grna_idxs, bool control_group_complement, IntegerVector cells_in_use, IntegerVector unique_response_idxs);
+RcppExport SEXP _ondisc_compute_n_ok_pairs_ondisc(SEXP file_name_inSEXP, SEXP f_row_ptrSEXP, SEXP n_genesSEXP, SEXP n_cells_origSEXP, SEXP n_cells_subSEXP, SEXP grna_group_idxsSEXP, SEXP all_nt_idxsSEXP, SEXP to_analyze_response_idxsSEXP, SEXP to_analyze_grna_idxsSEXP, SEXP control_group_complementSEXP, SEXP cells_in_useSEXP, SEXP unique_response_idxsSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const std::string& >::type file_name_in(file_name_inSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type f_row_ptr(f_row_ptrSEXP);
+    Rcpp::traits::input_parameter< int >::type n_genes(n_genesSEXP);
+    Rcpp::traits::input_parameter< int >::type n_cells_orig(n_cells_origSEXP);
+    Rcpp::traits::input_parameter< int >::type n_cells_sub(n_cells_subSEXP);
+    Rcpp::traits::input_parameter< List >::type grna_group_idxs(grna_group_idxsSEXP);
+    Rcpp::traits::input_parameter< IntegerVector >::type all_nt_idxs(all_nt_idxsSEXP);
+    Rcpp::traits::input_parameter< IntegerVector >::type to_analyze_response_idxs(to_analyze_response_idxsSEXP);
+    Rcpp::traits::input_parameter< IntegerVector >::type to_analyze_grna_idxs(to_analyze_grna_idxsSEXP);
+    Rcpp::traits::input_parameter< bool >::type control_group_complement(control_group_complementSEXP);
+    Rcpp::traits::input_parameter< IntegerVector >::type cells_in_use(cells_in_useSEXP);
+    Rcpp::traits::input_parameter< IntegerVector >::type unique_response_idxs(unique_response_idxsSEXP);
+    rcpp_result_gen = Rcpp::wrap(compute_n_ok_pairs_ondisc(file_name_in, f_row_ptr, n_genes, n_cells_orig, n_cells_sub, grna_group_idxs, all_nt_idxs, to_analyze_response_idxs, to_analyze_grna_idxs, control_group_complement, cells_in_use, unique_response_idxs));
+    return rcpp_result_gen;
+END_RCPP
+}
+// obtain_pointer_vector
+IntegerVector obtain_pointer_vector(IntegerVector i, int dim);
+RcppExport SEXP _ondisc_obtain_pointer_vector(SEXP iSEXP, SEXP dimSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< IntegerVector >::type i(iSEXP);
+    Rcpp::traits::input_parameter< int >::type dim(dimSEXP);
+    rcpp_result_gen = Rcpp::wrap(obtain_pointer_vector(i, dim));
+    return rcpp_result_gen;
+END_RCPP
+}
+// init_ull_vect
+SEXP init_ull_vect(int size);
+RcppExport SEXP _ondisc_init_ull_vect(SEXP sizeSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< int >::type size(sizeSEXP);
+    rcpp_result_gen = Rcpp::wrap(init_ull_vect(size));
+    return rcpp_result_gen;
+END_RCPP
+}
+// print_ull_vect
+void print_ull_vect(SEXP ull_vect);
+RcppExport SEXP _ondisc_print_ull_vect(SEXP ull_vectSEXP) {
+BEGIN_RCPP
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type ull_vect(ull_vectSEXP);
+    print_ull_vect(ull_vect);
     return R_NilValue;
 END_RCPP
 }
-// decrement_idxs
-void decrement_idxs(IntegerVector idxs);
-RcppExport SEXP _ondisc_decrement_idxs(SEXP idxsSEXP) {
+// update_dt_column
+void update_dt_column(IntegerVector col, IntegerVector overwrite_vector, int start);
+RcppExport SEXP _ondisc_update_dt_column(SEXP colSEXP, SEXP overwrite_vectorSEXP, SEXP startSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< IntegerVector >::type idxs(idxsSEXP);
-    decrement_idxs(idxs);
-    return R_NilValue;
-END_RCPP
-}
-// sum_in_place
-void sum_in_place(IntegerVector v1, IntegerVector v2);
-RcppExport SEXP _ondisc_sum_in_place(SEXP v1SEXP, SEXP v2SEXP) {
-BEGIN_RCPP
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< IntegerVector >::type v1(v1SEXP);
-    Rcpp::traits::input_parameter< IntegerVector >::type v2(v2SEXP);
-    sum_in_place(v1, v2);
+    Rcpp::traits::input_parameter< IntegerVector >::type col(colSEXP);
+    Rcpp::traits::input_parameter< IntegerVector >::type overwrite_vector(overwrite_vectorSEXP);
+    Rcpp::traits::input_parameter< int >::type start(startSEXP);
+    update_dt_column(col, overwrite_vector, start);
     return R_NilValue;
 END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_ondisc_inc_mean_count", (DL_FUNC) &_ondisc_inc_mean_count, 4},
-    {"_ondisc_inc_n_entries", (DL_FUNC) &_ondisc_inc_n_entries, 2},
-    {"_ondisc_inc_mean_sq_count", (DL_FUNC) &_ondisc_inc_mean_sq_count, 4},
-    {"_ondisc_inc_count", (DL_FUNC) &_ondisc_inc_count, 3},
-    {"_ondisc_inc_cell_count_if_feature_condition", (DL_FUNC) &_ondisc_inc_cell_count_if_feature_condition, 5},
-    {"_ondisc_index_h5_file", (DL_FUNC) &_ondisc_index_h5_file, 6},
-    {"_ondisc_write_data_h5", (DL_FUNC) &_ondisc_write_data_h5, 4},
-    {"_ondisc_map_memory_to_disk", (DL_FUNC) &_ondisc_map_memory_to_disk, 8},
-    {"_ondisc_map_memory_to_disk_logical_matrix", (DL_FUNC) &_ondisc_map_memory_to_disk_logical_matrix, 6},
-    {"_ondisc_decrement_idxs", (DL_FUNC) &_ondisc_decrement_idxs, 1},
-    {"_ondisc_sum_in_place", (DL_FUNC) &_ondisc_sum_in_place, 2},
+    {"_ondisc_update_n_features_vector", (DL_FUNC) &_ondisc_update_n_features_vector, 5},
+    {"_ondisc_decrement_vector", (DL_FUNC) &_ondisc_decrement_vector, 1},
+    {"_ondisc_add_value_to_vector", (DL_FUNC) &_ondisc_add_value_to_vector, 2},
+    {"_ondisc_compute_cellwise_covariates", (DL_FUNC) &_ondisc_compute_cellwise_covariates, 19},
+    {"_ondisc_write_to_csr", (DL_FUNC) &_ondisc_write_to_csr, 10},
+    {"_ondisc_create_odm", (DL_FUNC) &_ondisc_create_odm, 7},
+    {"_ondisc_create_odm_r_matrix_cpp", (DL_FUNC) &_ondisc_create_odm_r_matrix_cpp, 10},
+    {"_ondisc_load_row_cpp", (DL_FUNC) &_ondisc_load_row_cpp, 4},
+    {"_ondisc_read_integer_vector", (DL_FUNC) &_ondisc_read_integer_vector, 3},
+    {"_ondisc_read_feature_ids", (DL_FUNC) &_ondisc_read_feature_ids, 2},
+    {"_ondisc_read_row_ptr", (DL_FUNC) &_ondisc_read_row_ptr, 2},
+    {"_ondisc_threshold_count_matrix_cpp", (DL_FUNC) &_ondisc_threshold_count_matrix_cpp, 4},
+    {"_ondisc_compute_nt_nonzero_matrix_and_n_ok_pairs_ondisc", (DL_FUNC) &_ondisc_compute_nt_nonzero_matrix_and_n_ok_pairs_ondisc, 12},
+    {"_ondisc_compute_n_trt_cells_matrix_ondisc", (DL_FUNC) &_ondisc_compute_n_trt_cells_matrix_ondisc, 7},
+    {"_ondisc_compute_n_ok_pairs_ondisc", (DL_FUNC) &_ondisc_compute_n_ok_pairs_ondisc, 12},
+    {"_ondisc_obtain_pointer_vector", (DL_FUNC) &_ondisc_obtain_pointer_vector, 2},
+    {"_ondisc_init_ull_vect", (DL_FUNC) &_ondisc_init_ull_vect, 1},
+    {"_ondisc_print_ull_vect", (DL_FUNC) &_ondisc_print_ull_vect, 1},
+    {"_ondisc_update_dt_column", (DL_FUNC) &_ondisc_update_dt_column, 3},
     {NULL, NULL, 0}
 };
 

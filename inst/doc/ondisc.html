@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+
+
+<title>Getting started with ondisc</title>
+
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
+
+<style type="text/css">
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
+
+
+
+<style type="text/css">
+code {
+white-space: pre;
+}
+.sourceCode {
+overflow: visible;
+}
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } 
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.at { color: #7d9029; } 
+code span.bn { color: #40a070; } 
+code span.bu { color: #008000; } 
+code span.cf { color: #007020; font-weight: bold; } 
+code span.ch { color: #4070a0; } 
+code span.cn { color: #880000; } 
+code span.co { color: #60a0b0; font-style: italic; } 
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.do { color: #ba2121; font-style: italic; } 
+code span.dt { color: #902000; } 
+code span.dv { color: #40a070; } 
+code span.er { color: #ff0000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #40a070; } 
+code span.fu { color: #06287e; } 
+code span.im { color: #008000; font-weight: bold; } 
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.kw { color: #007020; font-weight: bold; } 
+code span.op { color: #666666; } 
+code span.ot { color: #007020; } 
+code span.pp { color: #bc7a00; } 
+code span.sc { color: #4070a0; } 
+code span.ss { color: #bb6688; } 
+code span.st { color: #4070a0; } 
+code span.va { color: #19177c; } 
+code span.vs { color: #4070a0; } 
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Getting started with ondisc</h1>
+
+
+
+<p><a href="https://timothy-barry.github.io/ondisc/"><code>ondisc</code></a>
+is an R package that facilitates analysis of large-scale single-cell
+data out-of-core on a laptop or distributed across tens to hundreds
+processors on a cluster or cloud. In both of these settings,
+<code>ondisc</code> requires only a few gigabytes of memory, even if the
+input data are tens of gigabytes in size. <code>ondisc</code> mainly is
+oriented toward single-cell CRISPR screen analysis, but
+<code>ondisc</code> also can be used for single-cell differential
+expression and single-cell co-expression analyses. <code>ondisc</code>
+is powered by several new, efficient algorithms for manipulating and
+querying large, sparse expression matrices.</p>
+<p>Users can install <code>ondisc</code> using the code below.
+<code>ondisc</code> depends on the Bioconductor package
+<code>Rhdf5lib</code>, which should be installed from source before
+installing <code>ondisc</code>.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>BiocManager<span class="sc">::</span><span class="fu">install</span>(<span class="st">&quot;Rhdf5lib&quot;</span>, <span class="at">type =</span> <span class="st">&quot;source&quot;</span>) <span class="co"># Rhdf5lib</span></span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;ondisc&quot;</span>) <span class="co"># ondisc</span></span></code></pre></div>
+<p>See the <a href="https://timothy-barry.github.io/sceptre-book/faq.html">frequently
+asked questions page</a> for tips on installing <code>ondisc</code> such
+that it runs as fast as possible. We can load <code>ondisc</code> by
+calling <code>library()</code>.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="fu">library</span>(ondisc)</span></code></pre></div>
+<p>The interface to <code>ondisc</code> is simple and minimal. The
+package contains only one class: <code>odm</code> (short for
+“<code>ondisc</code> matrix”). An <code>odm</code> object represents a
+single-cell expression matrix stored <em>on disk</em> (as opposed to
+<em>in memory</em>). <code>odm</code> objects can be used to store
+expression matrices that are too large to fit in memory. Users can
+create an <code>odm</code> object via one of two functions:
+<code>create_odm_from_cellranger()</code> or
+<code>create_odm_from_r_matrix()</code>. The former takes the output of
+one or more calls to Cell Ranger count as input, while the latter takes
+an R matrix (stored in standard format or sparse format) as input. Users
+can interface with an <code>odm</code> object using several functions,
+including the bracket (<code>[,]</code>) operator, which loads a
+specified subset of the expression matrix into memory.</p>
+<div id="initializing-an-odm-object-via-create_odm_from_cellranger" class="section level2">
+<h2>Initializing an <code>odm</code> object via
+<code>create_odm_from_cellranger()</code></h2>
+<p><code>ondisc</code> provides two functions for initializing an
+<code>odm</code> object: <code>create_odm_from_cellranger()</code> and
+<code>create_odm_from_r_matrix()</code>. The former is considerably more
+scalable and memory-efficient than the latter; thus, we recommend that
+users employ <code>create_odm_from_cellranger()</code> when possible. We
+illustrate use of <code>create_odm_from_cellranger()</code> on an
+example single-cell CRISPR screen dataset stored in <code>ondisc</code>.
+The example data contain two modalities, namely a gene modality and a
+CRISPR gRNA modality. There are 100 genes, 60 gRNAs, and 500 cells in
+the data. <code>create_odm_from_cellranger()</code> takes several
+arguments: <code>directories_to_load</code>,
+<code>directory_to_write</code>, <code>write_cellwise_covariates</code>,
+<code>chunk_size</code>, <code>compression_level</code>, and
+<code>grna_target_data_frame</code>. Only the first two of these
+arguments are required; the rest are set to reasonable defaults. We
+describe the <code>directories_to_load</code> and
+<code>directory_to_write</code> arguments below.</p>
+<p><code>directories_to_load</code> is a character vector specifying the
+locations of one or more directories outputted by Cell Ranger count.
+Below, we set <code>directories_to_load</code> to the (machine-specific)
+location of the example data on disk.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>directories_to_load <span class="ot">&lt;-</span> <span class="fu">paste0</span>(</span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>  <span class="fu">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;highmoi_example&quot;</span>, <span class="at">package =</span> <span class="st">&quot;ondisc&quot;</span>), </span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>  <span class="st">&quot;/gem_group_&quot;</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">2</span></span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a>)</span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a>directories_to_load <span class="co"># file paths to the example data on your computer</span></span></code></pre></div>
+<pre><code>## [1] &quot;/private/var/folders/mp/qgnyl4ss2cl9p399f3vpwqpc0000gn/T/RtmpS4gNAS/Rinstaafa27f1ac2/ondisc/extdata/highmoi_example/gem_group_1&quot;
+## [2] &quot;/private/var/folders/mp/qgnyl4ss2cl9p399f3vpwqpc0000gn/T/RtmpS4gNAS/Rinstaafa27f1ac2/ondisc/extdata/highmoi_example/gem_group_2&quot;</code></pre>
+<p><code>directories_to_load</code> contains the file paths to two
+directories, which correspond to cells sequenced across two batches. The
+data are stored in <a href="https://www.10xgenomics.com/support/software/cell-ranger/latest/analysis/outputs/cr-outputs-mex-matrices">feature
+barcode format</a>; each directory contains the files
+<code>barcodes.tsv.gz</code>, <code>features.tsv.gz</code>, and
+<code>matrix.mtx.gz</code>.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="fu">list.files</span>(directories_to_load[<span class="dv">1</span>])</span></code></pre></div>
+<pre><code>## [1] &quot;barcodes.tsv.gz&quot; &quot;features.tsv.gz&quot; &quot;matrix.mtx.gz&quot;</code></pre>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="fu">list.files</span>(directories_to_load[<span class="dv">2</span>])</span></code></pre></div>
+<pre><code>## [1] &quot;barcodes.tsv.gz&quot; &quot;features.tsv.gz&quot; &quot;matrix.mtx.gz&quot;</code></pre>
+<p>Next, <code>directory_to_write</code> is a file path to the directory
+in which to write the backing <code>.odm</code> file, which is the file
+that will store the expression data on disk. <code>.odm</code> files
+contain the same information as <code>.mtx</code> files but stored in a
+more efficient format for CRISPR screen analysis, differential
+expression analysis, and gene co-expression analysis. <code>.odm</code>
+files simply are HDF5 files with special structure. We set
+<code>directory_to_write</code> to <code>temp_dir</code> (i.e., the
+temporary directory) in this example. The remaining arguments are
+optional, and most users will not need to specify them; see
+<code>?create_odm_from_cellranger()</code> for more information. Below,
+we call <code>create_odm_from_cellranger()</code> on the example data,
+saving the output of the function to the variable
+<code>out_list</code>.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a>temp_dir <span class="ot">&lt;-</span> <span class="fu">tempdir</span>()</span>
+<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a>out_list <span class="ot">&lt;-</span> <span class="fu">create_odm_from_cellranger</span>(</span>
+<span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a>  <span class="at">directories_to_load =</span> directories_to_load,</span>
+<span id="cb9-5"><a href="#cb9-5" tabindex="-1"></a>  <span class="at">directory_to_write =</span> temp_dir </span>
+<span id="cb9-6"><a href="#cb9-6" tabindex="-1"></a>)</span></code></pre></div>
+<pre><code>## Round 1/2 processing of the input files.</code></pre>
+<pre><code>##  Processing file 1 of 2.</code></pre>
+<pre><code>##  Processing file 2 of 2.</code></pre>
+<pre><code>## Round 2/2 processing of the input files.</code></pre>
+<pre><code>##  Processing file 1 of 2. Computing cellwise covariates. Writing to disk.</code></pre>
+<pre><code>##  Processing file 2 of 2. Computing cellwise covariates. Writing to disk.</code></pre>
+<p><code>out_list</code> contains three entries: <code>gene</code>,
+<code>grna</code>, and <code>cellwise_covariates</code>.
+<code>gene</code> and <code>grna</code> are the <code>odm</code> objects
+corresponding to the gene and gRNA modalities, respectively. Meanwhile,
+<code>cellwise_covariates</code> is a data frame that contains the
+cell-wise covariates. (More on the cell-wise covariates later.) An
+inspection of <code>temp_dir</code> reveals that the files
+<code>gene.odm</code> and <code>grna.odm</code> have been written to
+this directory.</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" tabindex="-1"></a><span class="fu">list.files</span>(temp_dir, <span class="at">pattern =</span> <span class="st">&quot;*.odm&quot;</span>)</span></code></pre></div>
+<pre><code>## [1] &quot;gene.odm&quot; &quot;grna.odm&quot;</code></pre>
+</div>
+<div id="interacting-with-the-odm-object" class="section level2">
+<h2>Interacting with the <code>odm</code> object</h2>
+<p>We extract the <code>odm</code> object corresponding to the gene
+modality as follows.</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" tabindex="-1"></a>gene_odm <span class="ot">&lt;-</span> out_list[[<span class="st">&quot;gene&quot;</span>]]</span></code></pre></div>
+<p>Evaluating an <code>odm</code> object in the console prints
+information about the matrix, including the number of features and cells
+contained within the matrix, as well as the file path to the
+(machine-specific) backing <code>.odm</code> file.</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" tabindex="-1"></a>gene_odm</span></code></pre></div>
+<pre><code>## An object of class odm with the following attributes:
+##  • 100 features
+##  • 500 cells
+##  • Backing file: /var/folders/mp/qgnyl4ss2cl9p399f3vpwqpc0000gn/T//RtmpLF9Jz1/gene.odm</code></pre>
+<p><code>odm</code> objects support several key matrix operations,
+including <code>ncol()</code>, <code>nrow()</code>,
+<code>rownames()</code>, and <code>[,]</code>. <code>ncol()</code> and
+<code>nrow()</code> return the number of rows (i.e., features) and
+columns (i.e., cells) contained within the matrix, respectively.</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" tabindex="-1"></a>n_features <span class="ot">&lt;-</span> <span class="fu">nrow</span>(gene_odm)</span>
+<span id="cb21-2"><a href="#cb21-2" tabindex="-1"></a>n_features</span></code></pre></div>
+<pre><code>## [1] 100</code></pre>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" tabindex="-1"></a>n_cells <span class="ot">&lt;-</span> <span class="fu">ncol</span>(gene_odm)</span>
+<span id="cb23-2"><a href="#cb23-2" tabindex="-1"></a>n_cells</span></code></pre></div>
+<pre><code>## [1] 500</code></pre>
+<p>Next, <code>rownames()</code> returns the feature IDs.</p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" tabindex="-1"></a>feature_ids <span class="ot">&lt;-</span> <span class="fu">rownames</span>(gene_odm)</span>
+<span id="cb25-2"><a href="#cb25-2" tabindex="-1"></a><span class="fu">head</span>(feature_ids)</span></code></pre></div>
+<pre><code>## [1] &quot;ENSG00000100218&quot; &quot;ENSG00000253546&quot; &quot;ENSG00000185340&quot; &quot;ENSG00000223726&quot;
+## [5] &quot;ENSG00000099958&quot; &quot;ENSG00000234208&quot;</code></pre>
+<p>Finally, the bracket operator (<code>[,]</code>) loads a specified
+row of the expression matrix into memory. One can index into the rows by
+integer index or feature ID, as follows.</p>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" tabindex="-1"></a>expression_vector <span class="ot">&lt;-</span> gene_odm[<span class="dv">2</span>,]</span>
+<span id="cb27-2"><a href="#cb27-2" tabindex="-1"></a><span class="fu">head</span>(expression_vector)</span></code></pre></div>
+<pre><code>## [1] 0 2 4 1 1 2</code></pre>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" tabindex="-1"></a>expression_vector <span class="ot">&lt;-</span> gene_odm[<span class="fu">rownames</span>(gene_odm)[<span class="dv">2</span>],]</span>
+<span id="cb29-2"><a href="#cb29-2" tabindex="-1"></a><span class="fu">head</span>(expression_vector)</span></code></pre></div>
+<pre><code>## [1] 0 2 4 1 1 2</code></pre>
+<p>Indexing into an <code>odm</code> object by column is not supported.
+Finally, <code>odm</code> objects take up very little space, as the data
+are stored on disk rather than in-memory. For example,
+<code>gene_odm</code> takes up only 40 kilobytes of memory.</p>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" tabindex="-1"></a><span class="fu">object.size</span>(gene_odm) <span class="sc">|&gt;</span> <span class="fu">format</span>(<span class="at">units =</span> <span class="st">&quot;Kb&quot;</span>)</span></code></pre></div>
+<pre><code>## [1] &quot;8.7 Kb&quot;</code></pre>
+</div>
+<div id="supported-modalities" class="section level2">
+<h2>Supported modalities</h2>
+<p><code>ondisc</code> supports the following Cell Ranger modalities:
+<code>Gene Expression</code>, <code>CRISPR Guide Capture</code> (i.e.,
+gRNA expression), and <code>Antibody Capture</code> (i.e., protein
+expression). (The modality of a given feature is listed within the third
+column of the unzipped <code>features.tsv</code> file; see the <a href="https://www.10xgenomics.com/support/software/cell-ranger/latest/analysis/outputs/cr-outputs-mex-matrices">Cell
+Ranger documentation</a> for more information.) The table below maps the
+modality name used by Cell Ranger to that used by
+<code>ondisc</code>.</p>
+<table>
+<thead>
+<tr class="header">
+<th>Cell Ranger modality name</th>
+<th><code>ondisc</code> modality name</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>Gene Expression</code></td>
+<td><code>gene</code></td>
+</tr>
+<tr class="even">
+<td><code>CRISPR Guide Capture</code></td>
+<td><code>grna</code></td>
+</tr>
+<tr class="odd">
+<td><code>Antibody Capture</code></td>
+<td><code>protein</code></td>
+</tr>
+</tbody>
+</table>
+<p>We provide an example of using
+<code>create_odm_from_cellranger()</code> to import a dataset containing
+three modalities: gene expression, gRNA expression, and protein
+expression. We use a synthetic dataset for this purpose. To this end we
+call the function <code>write_example_cellranger_dataset()</code>, which
+creates a synthetic single-cell dataset, writing the dataset to disk in
+Cell Ranger feature barcode format. (See
+<code>?write_example_cellranger_dataset()</code> for more information
+about this function.) We create a synthetic single-cell dataset
+consisting of 100 genes, 20 gRNAs, 10 proteins, and 500 cells.
+Furthermore, we specify that the cells are sequenced across three
+batches. We write the synthetic dataset to the directory
+<code>temp_dir</code>.</p>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">4</span>)</span>
+<span id="cb33-2"><a href="#cb33-2" tabindex="-1"></a>example_data <span class="ot">&lt;-</span> <span class="fu">write_example_cellranger_dataset</span>(</span>
+<span id="cb33-3"><a href="#cb33-3" tabindex="-1"></a>  <span class="at">n_features =</span> <span class="fu">c</span>(<span class="dv">100</span>, <span class="dv">20</span>, <span class="dv">10</span>),</span>
+<span id="cb33-4"><a href="#cb33-4" tabindex="-1"></a>  <span class="at">n_cells =</span> <span class="dv">500</span>,</span>
+<span id="cb33-5"><a href="#cb33-5" tabindex="-1"></a>  <span class="at">n_batch =</span> <span class="dv">3</span>,</span>
+<span id="cb33-6"><a href="#cb33-6" tabindex="-1"></a>  <span class="at">modalities =</span> <span class="fu">c</span>(<span class="st">&quot;gene&quot;</span>, <span class="st">&quot;grna&quot;</span>, <span class="st">&quot;protein&quot;</span>),</span>
+<span id="cb33-7"><a href="#cb33-7" tabindex="-1"></a>  <span class="at">directory_to_write =</span> temp_dir ,</span>
+<span id="cb33-8"><a href="#cb33-8" tabindex="-1"></a>  <span class="at">p_set_col_zero =</span> <span class="dv">0</span></span>
+<span id="cb33-9"><a href="#cb33-9" tabindex="-1"></a>)</span></code></pre></div>
+<p>The synthetic data are contained in the directories
+<code>batch_1</code>, <code>batch_2</code>, and <code>batch_3</code>
+within <code>temp_dir</code>:</p>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" tabindex="-1"></a>directories_to_load <span class="ot">&lt;-</span> <span class="fu">list.files</span>(</span>
+<span id="cb34-2"><a href="#cb34-2" tabindex="-1"></a>  temp_dir,</span>
+<span id="cb34-3"><a href="#cb34-3" tabindex="-1"></a>  <span class="at">pattern =</span> <span class="st">&quot;batch_&quot;</span>,</span>
+<span id="cb34-4"><a href="#cb34-4" tabindex="-1"></a>  <span class="at">full.names =</span> <span class="cn">TRUE</span></span>
+<span id="cb34-5"><a href="#cb34-5" tabindex="-1"></a>)</span>
+<span id="cb34-6"><a href="#cb34-6" tabindex="-1"></a>directories_to_load</span></code></pre></div>
+<pre><code>## [1] &quot;/var/folders/mp/qgnyl4ss2cl9p399f3vpwqpc0000gn/T//RtmpLF9Jz1/batch_1&quot;
+## [2] &quot;/var/folders/mp/qgnyl4ss2cl9p399f3vpwqpc0000gn/T//RtmpLF9Jz1/batch_2&quot;
+## [3] &quot;/var/folders/mp/qgnyl4ss2cl9p399f3vpwqpc0000gn/T//RtmpLF9Jz1/batch_3&quot;</code></pre>
+<p>Each of these directories contains the files
+<code>matrix.mtx.gz</code>, <code>features.tsv.gz</code>, and
+<code>barcodes.tsv.gz</code>. For example, the contents of the
+<code>batch_1</code> are as follows.</p>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" tabindex="-1"></a><span class="fu">list.files</span>(directories_to_load[<span class="dv">1</span>])</span></code></pre></div>
+<pre><code>## [1] &quot;barcodes.tsv.gz&quot; &quot;features.tsv.gz&quot; &quot;matrix.mtx.gz&quot;</code></pre>
+<p>We call <code>create_odm_from_cellranger()</code> to import these
+data, saving the output of the function in the variable
+<code>out_list</code>.</p>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" tabindex="-1"></a>out_list <span class="ot">&lt;-</span> <span class="fu">create_odm_from_cellranger</span>(</span>
+<span id="cb38-2"><a href="#cb38-2" tabindex="-1"></a>  <span class="at">directories_to_load =</span> directories_to_load,</span>
+<span id="cb38-3"><a href="#cb38-3" tabindex="-1"></a>  <span class="at">directory_to_write =</span> temp_dir</span>
+<span id="cb38-4"><a href="#cb38-4" tabindex="-1"></a>)</span></code></pre></div>
+<pre><code>## Round 1/2 processing of the input files.</code></pre>
+<pre><code>##  Processing file 1 of 3.</code></pre>
+<pre><code>##  Processing file 2 of 3.</code></pre>
+<pre><code>##  Processing file 3 of 3.</code></pre>
+<pre><code>## Round 2/2 processing of the input files.</code></pre>
+<pre><code>##  Processing file 1 of 3. Computing cellwise covariates. Writing to disk.</code></pre>
+<pre><code>##  Processing file 2 of 3. Computing cellwise covariates. Writing to disk.</code></pre>
+<pre><code>##  Processing file 3 of 3. Computing cellwise covariates. Writing to disk.</code></pre>
+<p><code>out_list</code> contains the cell-wise covariate data frame
+alongside <code>odm</code> objects corresponding to the gene, gRNA, and
+protein modalities.</p>
+<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" tabindex="-1"></a><span class="fu">names</span>(out_list)</span></code></pre></div>
+<pre><code>## [1] &quot;gene&quot;                &quot;grna&quot;                &quot;protein&quot;            
+## [4] &quot;cellwise_covariates&quot;</code></pre>
+<p>Moreover, the files <code>gene.odm</code>, <code>grna.odm</code>, and
+<code>protein.odm</code> have been written to disk. (The previous
+<code>gene.odm</code> and <code>grna.odm</code> files are
+overwritten.)</p>
+<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" tabindex="-1"></a><span class="fu">list.files</span>(temp_dir, <span class="at">pattern =</span> <span class="st">&quot;*.odm&quot;</span>)</span></code></pre></div>
+<pre><code>## [1] &quot;gene.odm&quot;    &quot;grna.odm&quot;    &quot;protein.odm&quot;</code></pre>
+</div>
+<div id="the-cell-wise-covariate-data-frame" class="section level2">
+<h2>The cell-wise covariate data frame</h2>
+<p>As part of importing the data,
+<code>create_odm_from_cellranger()</code> computes the cell-wise
+covariates. We print the first few rows of the cell-wise covariate data
+frame corresponding to the synthetic data below.</p>
+<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" tabindex="-1"></a>cellwise_covariates <span class="ot">&lt;-</span> out_list[[<span class="st">&quot;cellwise_covariates&quot;</span>]]</span>
+<span id="cb51-2"><a href="#cb51-2" tabindex="-1"></a><span class="fu">head</span>(cellwise_covariates)</span></code></pre></div>
+<pre><code>##    gene_n_umis gene_n_nonzero gene_p_mito grna_n_umis grna_n_nonzero
+##          &lt;int&gt;          &lt;int&gt;       &lt;num&gt;       &lt;int&gt;          &lt;int&gt;
+## 1:         233             46   0.4420601          45             11
+## 2:         159             37   0.4716981          37              6
+## 3:         210             41   0.2047619          49              8
+## 4:         215             36   0.3395349          60             13
+## 5:         264             39   0.3106061          57             12
+## 6:         207             35   0.2415459          58             10
+##    grna_feature_w_max_expression grna_frac_umis_max_feature protein_n_umis
+##                           &lt;char&gt;                      &lt;num&gt;          &lt;int&gt;
+## 1:                        grna_1                  0.2222222             14
+## 2:                       grna_15                  0.2702703             37
+## 3:                        grna_1                  0.1836735             24
+## 4:                       grna_13                  0.1333333             29
+## 5:                       grna_14                  0.1578947             21
+## 6:                       grna_19                  0.1724138             48
+##    protein_n_nonzero   batch
+##                &lt;int&gt;  &lt;fctr&gt;
+## 1:                 4 batch_1
+## 2:                 8 batch_1
+## 3:                 5 batch_1
+## 4:                 5 batch_1
+## 5:                 5 batch_1
+## 6:                 6 batch_1</code></pre>
+<p>The modality to which a given covariate corresponds (“gene”, “grna”,
+or “protein”) is prepended to the name of the covariate. We describe
+each covariate below.</p>
+<ul>
+<li><p><code>gene_n_umis</code>: the number of gene UMIs sequenced in a
+given cell.</p></li>
+<li><p><code>gene_n_nonzero</code>: the number of genes that exhibit
+nonzero expression in a given cell.</p></li>
+<li><p><code>gene_p_mito</code>: the fraction of gene transcripts that
+map to mitochondrial genes in a given cell. (Mitochondrial genes are
+identified as genes whose name starts with <code>&quot;MT-&quot;</code> or
+<code>&quot;mt-&quot;</code>.)</p></li>
+<li><p><code>grna_n_umis</code>: similar to <code>gene_n_umis</code> but
+for the gRNA modality.</p></li>
+<li><p><code>grna_n_nonzero</code>: similar to
+<code>gene_n_nonzero</code> but for the gRNA modality.</p></li>
+<li><p><code>grna_feature_w_max_expression</code>: the ID of the gRNA
+that exhibits the maximum UMI count in a given cell.</p></li>
+<li><p><code>grna_frac_umis_max_feature</code>: the fraction of UMIs
+that the maximally expressed gRNA in a given cell constitutes.</p></li>
+<li><p><code>protein_n_umis</code>: similar to <code>gene_n_umis</code>
+but for the protein modality.</p></li>
+<li><p><code>protein_n_nonzero</code>: similar to
+<code>gene_n_nonzero</code> but for the protein modality.</p></li>
+<li><p><code>batch</code>: the batch in which a given cell was
+sequenced. Cells loaded from different directories are assumed to belong
+to different batches.</p></li>
+</ul>
+<p><code>sceptre</code> uses the covariates
+<code>grna_feature_w_max_expression</code> and
+<code>grna_frac_umis_max_feature</code> to assign gRNAs to cells.</p>
+</div>
+<div id="reading-an-.odm-file-into-r" class="section level2">
+<h2>Reading an <code>.odm</code> file into R</h2>
+<p>Users can read an <code>.odm</code> file into R by calling the
+function <code>initialize_odm_from_backing_file()</code>. Below, we call
+<code>initialize_odm_from_backing_file()</code> on the file
+<code>gene.odm</code> stored within <code>temp_dir</code>, which loads
+the gene expression matrix that we created in the previous step.</p>
+<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" tabindex="-1"></a>temp_dir <span class="ot">&lt;-</span> <span class="fu">tempdir</span>()</span>
+<span id="cb53-2"><a href="#cb53-2" tabindex="-1"></a>gene_odm <span class="ot">&lt;-</span> <span class="fu">initialize_odm_from_backing_file</span>(</span>
+<span id="cb53-3"><a href="#cb53-3" tabindex="-1"></a>  <span class="fu">paste0</span>(temp_dir, <span class="st">&quot;/gene.odm&quot;</span>)</span>
+<span id="cb53-4"><a href="#cb53-4" tabindex="-1"></a>)</span>
+<span id="cb53-5"><a href="#cb53-5" tabindex="-1"></a>gene_odm</span></code></pre></div>
+<pre><code>## An object of class odm with the following attributes:
+##  • 100 features
+##  • 500 cells
+##  • Backing file: /var/folders/mp/qgnyl4ss2cl9p399f3vpwqpc0000gn/T//RtmpLF9Jz1/gene.odm</code></pre>
+<p><code>.odm</code> files are portable. Thus, a user can create an
+<code>.odm</code> file on one computer, move the <code>.odm</code> file
+to another computer, and then open the <code>.odm</code> file on the
+second computer. Note that <code>odm</code> objects themselves are not
+portable; thus, to move an <code>odm</code> object from one computer to
+another, the user should transfer the underlying <code>.odm</code> file
+to the second computer and then open the <code>.odm</code> file on the
+second computer via <code>initialize_odm_from_backing_file()</code>.</p>
+</div>
+<div id="initializing-an-odm-object-via-create_odm_from_r_matrix" class="section level2">
+<h2>Initializing an <code>odm</code> object via
+<code>create_odm_from_r_matrix()</code></h2>
+<p>We recommend that users create an <code>odm</code> object via
+<code>create_odm_from_cellranger()</code>, as this function is highly
+scalable and typically requires only a couple gigabytes of memory.
+However, users also can convert an R matrix into an <code>odm</code>
+object via the function <code>create_odm_from_r_matrix()</code>.
+<code>create_odm_from_r_matrix()</code> takes two main arguments:
+<code>mat</code> and <code>file_to_write</code>. <code>mat</code> is a
+standard R matrix (of type <code>&quot;matrix&quot;</code>) or a sparse R matrix
+(of type <code>&quot;dgCMatrix&quot;</code>, <code>&quot;dgRMatrix&quot;</code>, or
+<code>&quot;dgTMatrix&quot;</code>). <code>mat</code> should contain row names
+giving the ID of each feature. Next, <code>file_to_write</code> is a
+fully-qualified file path specifying the location in which to write the
+backing <code>.odm</code> file. We provide an example of calling
+<code>create_odm_from_r_matrix()</code> on a small gene-by-cell
+expression matrix.</p>
+<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">4</span>)</span>
+<span id="cb55-2"><a href="#cb55-2" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">rpois</span>(<span class="dv">100</span>, <span class="at">lambda =</span> <span class="dv">1</span>)</span>
+<span id="cb55-3"><a href="#cb55-3" tabindex="-1"></a>gene_mat <span class="ot">&lt;-</span> <span class="fu">matrix</span>(</span>
+<span id="cb55-4"><a href="#cb55-4" tabindex="-1"></a>  x,</span>
+<span id="cb55-5"><a href="#cb55-5" tabindex="-1"></a>  <span class="at">nrow =</span> 5L,</span>
+<span id="cb55-6"><a href="#cb55-6" tabindex="-1"></a>  <span class="at">dimnames =</span> <span class="fu">list</span>(<span class="fu">paste0</span>(<span class="st">&quot;gene_&quot;</span>, <span class="fu">seq_len</span>(5L)), <span class="fu">paste0</span>(<span class="st">&quot;cell_&quot;</span>, <span class="fu">seq_len</span>(20L)))</span>
+<span id="cb55-7"><a href="#cb55-7" tabindex="-1"></a>)</span></code></pre></div>
+<p><code>gene_mat</code> is a gene expression matrix containing 5 genes
+and 20 cells. We pass this matrix to
+<code>create_odm_from_r_matrix()</code>, setting
+<code>file_to_write</code> to
+<code>paste0(temp_dir, &quot;/gene.odm&quot;)</code>.</p>
+<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" tabindex="-1"></a>file_to_write <span class="ot">&lt;-</span> <span class="fu">paste0</span>(temp_dir, <span class="st">&quot;/gene.odm&quot;</span>)</span>
+<span id="cb56-2"><a href="#cb56-2" tabindex="-1"></a>gene_odm <span class="ot">&lt;-</span> <span class="fu">create_odm_from_r_matrix</span>(</span>
+<span id="cb56-3"><a href="#cb56-3" tabindex="-1"></a>  <span class="at">mat =</span> gene_mat,</span>
+<span id="cb56-4"><a href="#cb56-4" tabindex="-1"></a>  <span class="at">file_to_write =</span> file_to_write,</span>
+<span id="cb56-5"><a href="#cb56-5" tabindex="-1"></a>  <span class="at">chunk_size =</span> 5L</span>
+<span id="cb56-6"><a href="#cb56-6" tabindex="-1"></a>)</span></code></pre></div>
+<p><code>gene_odm</code> is a standard <code>odm</code> object.</p>
+<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" tabindex="-1"></a>gene_odm</span></code></pre></div>
+<pre><code>## An object of class odm with the following attributes:
+##  • 5 features
+##  • 20 cells
+##  • Backing file: /var/folders/mp/qgnyl4ss2cl9p399f3vpwqpc0000gn/T//RtmpLF9Jz1/gene.odm</code></pre>
+<p>Moreover, the file <code>gene.odm</code> has been written to
+<code>temp_dir</code>. (The previous <code>gene.odm</code> file is
+overwritten.)</p>
+</div>
+<div id="notes-on-compression" class="section level2">
+<h2>Notes on compression</h2>
+<p><code>create_odm_from_cellranger()</code> and
+<code>create_odm_from_r_matrix()</code> take optional arguments
+<code>chunk_size</code> and <code>compression_level</code> (which are
+set to reasonable defaults). <code>chunk_size</code> and
+<code>compression_level</code> control the extent to which the backing
+<code>.odm</code> file is compressed. <code>chunk_size</code> should be
+a positive integer, and <code>compression_level</code> should be an
+integer in the range of 0 to 9. Increasing the value of these arguments
+<em>increases</em> the level of compression, thereby leading to a
+smaller file size for the backing <code>.odm</code> file (but possibly
+longer read and write times).</p>
+<div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" tabindex="-1"></a><span class="fu">library</span>(sessioninfo); <span class="fu">session_info</span>()</span></code></pre></div>
+<pre><code>## Warning in system2(&quot;quarto&quot;, &quot;-V&quot;, stdout = TRUE, env = paste0(&quot;TMPDIR=&quot;, :
+## running command
+## &#39;TMPDIR=/private/var/folders/mp/qgnyl4ss2cl9p399f3vpwqpc0000gn/T/RtmpLF9Jz1/fileab7d637d4586
+## &#39;quarto&#39; -V&#39; had status 1</code></pre>
+<pre><code>## ─ Session info ───────────────────────────────────────────────────────────────
+##  setting  value
+##  version  R version 4.5.1 (2025-06-13)
+##  os       macOS Tahoe 26.5
+##  system   aarch64, darwin20
+##  ui       X11
+##  language (EN)
+##  collate  C.UTF-8
+##  ctype    C.UTF-8
+##  tz       America/New_York
+##  date     2026-06-09
+##  pandoc   3.1.1 @ /Applications/quarto/bin/tools/ (via rmarkdown)
+##  quarto   quarto script failed: unrecognized architecture  @ /usr/local/bin/quarto
+## 
+## ─ Packages ───────────────────────────────────────────────────────────────────
+##  package     * version  date (UTC) lib source
+##  bit           4.6.0    2025-03-06 [2] CRAN (R 4.5.0)
+##  bit64         4.6.0-1  2025-01-16 [2] CRAN (R 4.5.0)
+##  bslib         0.9.0    2025-01-30 [2] CRAN (R 4.5.0)
+##  cachem        1.1.0    2024-05-16 [2] CRAN (R 4.5.0)
+##  cli           3.6.5    2025-04-23 [2] CRAN (R 4.5.0)
+##  crayon        1.5.3    2024-06-20 [2] CRAN (R 4.5.0)
+##  data.table    1.18.2.1 2026-01-27 [2] CRAN (R 4.5.2)
+##  digest        0.6.37   2024-08-19 [2] CRAN (R 4.5.0)
+##  evaluate      1.0.5    2025-08-27 [2] CRAN (R 4.5.0)
+##  fastmap       1.2.0    2024-05-15 [2] CRAN (R 4.5.0)
+##  glue          1.8.0    2024-09-30 [2] CRAN (R 4.5.0)
+##  hms           1.1.3    2023-03-21 [2] CRAN (R 4.5.0)
+##  htmltools     0.5.8.1  2024-04-04 [2] CRAN (R 4.5.0)
+##  jquerylib     0.1.4    2021-04-26 [2] CRAN (R 4.5.0)
+##  jsonlite      2.0.0    2025-03-27 [2] CRAN (R 4.5.0)
+##  knitr         1.50     2025-03-16 [2] CRAN (R 4.5.0)
+##  lattice       0.22-7   2025-04-02 [2] CRAN (R 4.5.1)
+##  lifecycle     1.0.5    2026-01-08 [2] CRAN (R 4.5.2)
+##  magrittr      2.0.5    2026-04-04 [2] CRAN (R 4.5.2)
+##  Matrix        1.7-4    2025-08-28 [2] CRAN (R 4.5.0)
+##  ondisc      * 1.3.5    2026-06-09 [1] Bioconductor
+##  pillar        1.11.1   2025-09-17 [2] CRAN (R 4.5.0)
+##  pkgconfig     2.0.3    2019-09-22 [2] CRAN (R 4.5.0)
+##  R.methodsS3   1.8.2    2022-06-13 [2] CRAN (R 4.5.0)
+##  R.oo          1.27.1   2025-05-02 [2] CRAN (R 4.5.0)
+##  R.utils       2.13.0   2025-02-24 [2] CRAN (R 4.5.0)
+##  R6            2.6.1    2025-02-15 [2] CRAN (R 4.5.0)
+##  Rcpp          1.1.0    2025-07-02 [2] CRAN (R 4.5.0)
+##  readr         2.1.5    2024-01-10 [2] CRAN (R 4.5.0)
+##  Rhdf5lib      1.31.0   2025-04-27 [2] Bioconductor 3.22 (R 4.5.0)
+##  rlang         1.2.0    2026-04-06 [2] CRAN (R 4.5.2)
+##  rmarkdown     2.29     2024-11-04 [2] CRAN (R 4.5.0)
+##  sass          0.4.10   2025-04-11 [2] CRAN (R 4.5.0)
+##  sessioninfo * 1.2.3    2025-02-05 [2] CRAN (R 4.5.0)
+##  tibble        3.3.1    2026-01-11 [2] CRAN (R 4.5.2)
+##  tidyselect    1.2.1    2024-03-11 [2] CRAN (R 4.5.0)
+##  tzdb          0.5.0    2025-03-15 [2] CRAN (R 4.5.0)
+##  vctrs         0.7.2    2026-03-21 [2] CRAN (R 4.5.2)
+##  vroom         1.6.5    2023-12-05 [2] CRAN (R 4.5.0)
+##  xfun          0.57     2026-03-20 [2] CRAN (R 4.5.2)
+##  yaml          2.3.10   2024-07-26 [2] CRAN (R 4.5.0)
+## 
+##  [1] /private/var/folders/mp/qgnyl4ss2cl9p399f3vpwqpc0000gn/T/RtmpS4gNAS/Rinstaafa27f1ac2
+##  [2] /Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/library
+##  * ── Packages attached to the search path.
+## 
+## ──────────────────────────────────────────────────────────────────────────────</code></pre>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
